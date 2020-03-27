@@ -14,4 +14,4 @@ before_install:
   - docker build -t cyran/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true USERNAME/docker-react npm run test
+  - docker run -e CI=true cyrkob/docker-react npm run test
