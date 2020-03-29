@@ -11,18 +11,9 @@ before_install:
   - gcloud config set compute/zone us-east1-b
   - gcloud container clusters get-credentials multi-cluster
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker build -t cyran/react-test -f ./client/Dockerfile.dev ./client
-cache:
-  directories:
-    - "$HOME/google-cloud-sdk/"
+  - docker build -t cyrkob/react-test -f ./client/Dockerfile.dev ./client
 script:
-  - gcloud version || true
-  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
-  # Add gcloud to $PATH
-  - source /home/travis/google-cloud-sdk/path.bash.inc
-  - gcloud version
-  - docker run -e CI=true cyran/docker-react npm run test
-
+  - docker run -e CI=true cyrkob/docker-react npm run test
 deploy:
   provider: script
   script: bash ./deploy.sh
