@@ -4,13 +4,16 @@ services:
 before_install:
   - echo "starting"
   - openssl aes-256-cbc -K $encrypted_b2703a2559f3_key -iv $encrypted_b2703a2559f3_iv -in service.json.enc -out service.json -d
+  - echo "open ssl done"
   - curl https://sdk.cloud.google.com | bash > /dev/null;
+  - echo "curl done"
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
   - gcloud auth activate-service-acount --key-file service.json
   - gcloud config set project multi-k8s-272222
   - gcloud config set compute/zone us-east1-b
   - gcloud container clusters get-credentials multi-cluster
+  - echo "setting docker PW"
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - echo "Before docker build"
   - docker build -t cyran/react-test -f ./client/Dockerfile.dev ./client
